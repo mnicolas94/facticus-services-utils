@@ -2,10 +2,12 @@
   "name": "com.facticus.com.facticus.services-utils",
   "version": "0.2.1",
   "displayName": "Services Utils",
-  "description": "Utility functions and classes to make easier the work with Unity gaming servcices packages",
+  "description": "Utility functions and classes to make easier the work with Unity Gaming Services packages",
   "unity": "2022.3",
   "unityRelease": "",
-  "dependencies": {},
+  "dependencies": {
+    "com.github.siccity.serializablecallback": "https://github.com/Siccity/SerializableCallback.git"
+  },
   "keywords": [],
   "author": {
     "name": "Facticus",
