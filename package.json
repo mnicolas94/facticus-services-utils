@@ -1,20 +1,20 @@
 {
-  "name": "com.{{COMPANY}}.{{REPOSITORY_NAME}}",
+  "name": "com.facticus.com.facticus.services-utils",
   "version": "0.2.1",
-  "displayName": "{{FRIENDLY_NAME}}",
-  "description": "{{DESCRIPTION}}",
-  "unity": "{{UNITY_VERSION}}",
+  "displayName": "Services Utils",
+  "description": "Utility functions and classes to make easier the work with Unity gaming servcices packages",
+  "unity": "2022.3",
   "unityRelease": "",
   "dependencies": {},
   "keywords": [],
   "author": {
-    "name": "{{COMPANY_FRIENDLY_NAME}}",
-    "email": "{{REPORT_EMAIL}}",
-    "url": "{{COMPANY_WEBSITE}}"
+    "name": "Facticus",
+    "email": "",
+    "url": ""
   },
   "repository": {
     "type": "git",
-    "url": "{{GIT_REPOSITORY}}"
+    "url": "https://github.com/mnicolas94/facticus-services-utils.git"
   },
   "license": "MIT"
 }
