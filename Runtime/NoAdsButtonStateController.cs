@@ -1,4 +1,6 @@
-﻿using ServicesUtils.AdsLegacy;
+﻿#if ENABLED_ADSLEGACY && ENABLED_PURCHASING
+
+using ServicesUtils.AdsLegacy;
 using ServicesUtils.Iap;
 using UnityEngine;
 
@@ -18,3 +20,5 @@ namespace ServicesUtils
         }
     }
 }
+
+#endif
