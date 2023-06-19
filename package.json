@@ -6,7 +6,11 @@
   "unity": "2022.3",
   "unityRelease": "",
   "dependencies": {
-    "com.github.siccity.serializablecallback": "https://github.com/Siccity/SerializableCallback.git"
+    "com.facticus.asyncutils": "https://github.com/mnicolas94/unity-async-utils.git",
+    "com.facticus.utils": "https://github.com/mnicolas94/UnityUtils.git",
+    "com.github.siccity.serializablecallback": "https://github.com/Siccity/SerializableCallback.git",
+    "com.unity.textmeshpro": "3.0.6",
+    "net.tnrd.serializableinterface": "1.12.1"
   },
   "keywords": [],
   "author": {
