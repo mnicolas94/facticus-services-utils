@@ -1,5 +1,5 @@
 {
-    "name": "com.facticus.com.facticus.services-utils.Editor",
+    "name": "com.facticus.services-utils.Editor",
     "references": [],
     "includePlatforms": [
         "Editor"

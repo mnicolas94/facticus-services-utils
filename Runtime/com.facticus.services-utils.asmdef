@@ -1,5 +1,5 @@
 {
-    "name": "com.facticus.com.facticus.services-utils",
+    "name": "com.facticus.services-utils",
     "rootNamespace": "",
     "references": [
         "GUID:48d718e2f73f47c48be09822f5881d60",

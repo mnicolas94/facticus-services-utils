@@ -1,7 +1,7 @@
 {
-  "name": "com.facticus.com.facticus.services-utils.Editor.Tests",
+  "name": "com.facticus.services-utils.Tests",
   "references": [
-    "com.facticus.com.facticus.services-utils"
+    "Unity.com.facticus.com.facticus.services-utils"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"
