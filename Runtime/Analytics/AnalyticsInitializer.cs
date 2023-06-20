@@ -5,12 +5,14 @@ using System.Threading;
 using AsyncUtils;
 using Unity.Services.Analytics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ServicesUtils.Analytics
 {
     public class AnalyticsInitializer : MonoBehaviour
     {
-        [SerializeField] private AsyncPopup _popup;
+        [FormerlySerializedAs("_popup")]
+        [SerializeField] private AsyncPopup _privacyPolicyPopup;
         
         private CancellationTokenSource _cts;
 
@@ -35,7 +37,7 @@ namespace ServicesUtils.Analytics
             try
             {
                 var ct = _cts.Token;
-                await Popups.ShowPopup(_popup, ct);
+                await Popups.ShowPopup(_privacyPolicyPopup, ct);
                 
                 List<string> consentIdentifiers = await AnalyticsService.Instance.CheckForRequiredConsents();
             }

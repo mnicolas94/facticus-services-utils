@@ -46,7 +46,7 @@
         },
         {
             "name": "com.unity.purchasing",
-            "expression": "4.9.3",
+            "expression": "4.7.0",
             "define": "ENABLED_PURCHASING"
         },
         {
