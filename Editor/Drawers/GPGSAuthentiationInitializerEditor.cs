@@ -25,6 +25,7 @@ namespace ServicesUtils.Editor.Drawers
                 if (!alreadyHasIt) // check double clicks
                 {
                     var newDefines = new string[defines.Length + 1];
+                    defines.CopyTo(newDefines, 0);
                     newDefines[defines.Length] = "GPGP_ENABLED";
                     PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, newDefines);
                     button.SetEnabled(false);
