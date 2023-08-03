@@ -1,6 +1,9 @@
 {
     "name": "com.facticus.services-utils.Editor",
-    "references": [],
+    "rootNamespace": "",
+    "references": [
+        "GUID:c5b3ec0a4d604e542a11e4c71bd22896"
+    ],
     "includePlatforms": [
         "Editor"
     ],

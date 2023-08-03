@@ -1,9 +1,12 @@
 ﻿#if ENABLED_AUTHENTICATION
 
+using System;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using UnityEditor;
+using UnityEditor.Build;
 using UnityEngine;
-#if UNITY_ANDROID
+#if UNITY_ANDROID && GPGP_ENABLED
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 #endif
@@ -12,13 +15,12 @@ namespace ServicesUtils.Authentication
 {
     public class GPGSAuthenticationInitializer : MonoBehaviour, IAuthenticator
     {
-        
         private string _token;
         private string _error;
         
         private void Awake()
         {
-#if UNITY_ANDROID
+#if UNITY_ANDROID && GPGP_ENABLED
             PlayGamesPlatform.Activate();
 #endif
         }
@@ -33,7 +35,7 @@ namespace ServicesUtils.Authentication
         private Task LoginGooglePlayGames()
         {
             var tcs = new TaskCompletionSource<object>();
-#if UNITY_ANDROID
+#if UNITY_ANDROID && GPGP_ENABLED
             PlayGamesPlatform.Instance.Authenticate((success) =>
             {
                 if (success == SignInStatus.Success)
