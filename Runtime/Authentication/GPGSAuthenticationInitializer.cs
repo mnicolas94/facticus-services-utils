@@ -3,8 +3,6 @@
 using System;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
-using UnityEditor;
-using UnityEditor.Build;
 using UnityEngine;
 #if UNITY_ANDROID && GPGP_ENABLED
 using GooglePlayGames;
