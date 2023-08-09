@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace ServicesUtils.AdsLegacy
 {
-    [CreateAssetMenu(fileName = "AdUnit", menuName = "Facticus/ServicesUtils/AdUnit")]
+    [CreateAssetMenu(fileName = "AdUnit", menuName = "ServicesUtils/Ads/AdUnit")]
     public class AdUnitData : ScriptableObject, IUnityAdsLoadListener, IUnityAdsShowListener
     {
         [SerializeField] private string _androidAdUnitId = "Interstitial_Android";

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ServicesUtils.AdsLegacy
 {
-    [CreateAssetMenu(fileName = "AdTimer", menuName = "Services/Ads/AdTimer")]
+    [CreateAssetMenu(fileName = "AdTimer", menuName = "ServicesUtils/Ads/AdTimer")]
     public class AdTimer : ScriptableObject
     {
         [SerializeField] private float _firstTimePeriod;
