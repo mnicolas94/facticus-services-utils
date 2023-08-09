@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#if ENABLED_AUTHENTICATION
+
+using System.Linq;
 using ServicesUtils.Authentication;
 using UnityEditor;
 using UnityEditor.Build;
@@ -41,3 +43,5 @@ namespace ServicesUtils.Editor.Drawers
         }
     }
 }
+
+#endif
