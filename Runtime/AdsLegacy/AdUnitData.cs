@@ -1,13 +1,11 @@
-﻿#if ENABLED_ADSLEGACY
-
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.Events;
 
 namespace ServicesUtils.AdsLegacy
 {
-    public class AdUnit : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
+    public class AdUnitData : ScriptableObject, IUnityAdsLoadListener, IUnityAdsShowListener
     {
         [SerializeField] private string _androidAdUnitId = "Interstitial_Android";
         [SerializeField] private string _iOsAdUnitId = "Interstitial_iOS";
@@ -16,7 +14,6 @@ namespace ServicesUtils.AdsLegacy
         [SerializeField] private bool _reloadAfterFailure;
         [SerializeField] private float _reloadAfterFailureTime = 5;
 
-        [SerializeField] private UnityEvent _onGameObjectStart;
         [SerializeField] private UnityEvent _onAdLoaded;
         [SerializeField] private UnityEvent _onFailedToLoad;
         [SerializeField] private UnityEvent _onShowFailure;
@@ -24,17 +21,34 @@ namespace ServicesUtils.AdsLegacy
         [SerializeField] private UnityEvent _onShowClick;
         [SerializeField] private UnityEvent _onShowComplete;
         [SerializeField] private UnityEvent _onShowSkipped;
- 
-        private string _adUnitId;
         
-        private void Awake()
+        private string _adUnitId;
+        private bool _loaded;
+        private bool _loading;
+
+        public UnityEvent OnAdLoaded => _onAdLoaded;
+
+        public UnityEvent OnFailedToLoad => _onFailedToLoad;
+
+        public UnityEvent OnShowFailure => _onShowFailure;
+
+        public UnityEvent OnShowStart => _onShowStart;
+
+        public UnityEvent OnShowClick => _onShowClick;
+
+        public UnityEvent OnShowComplete => _onShowComplete;
+
+        public UnityEvent OnShowSkipped => _onShowSkipped;
+
+        public bool Loaded => _loaded;
+
+        public bool Loading => _loading;
+
+        private void OnEnable()
         {
             _adUnitId = GetAddUnit();
-        }
-
-        private void Start()
-        {
-            _onGameObjectStart.Invoke();
+            _loaded = false;
+            _loading = false;
         }
 
         private string GetAddUnit()
@@ -47,7 +61,6 @@ namespace ServicesUtils.AdsLegacy
         [ContextMenu("Load")]
         public void LoadAd()
         {
-            Debug.Log("Loading Ad: " + _adUnitId);
             Advertisement.Load(_adUnitId, this);
         }
  
@@ -55,21 +68,21 @@ namespace ServicesUtils.AdsLegacy
         [ContextMenu("Show")]
         public void ShowAd()
         {
-            // Note that if the ad content wasn't previously loaded, this method will fail
-            Debug.Log("Showing Ad: " + _adUnitId);
             Advertisement.Show(_adUnitId, this);
         }
  
         // Implement Load Listener and Show Listener interface methods: 
         public void OnUnityAdsAdLoaded(string adUnitId)
         {
-            Debug.Log("Ad loaded");
+            _loaded = true;
+            _loading = false;
             _onAdLoaded.Invoke();
         }
  
         public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
         {
-            Debug.Log($"Error loading Ad Unit: {adUnitId} - {error.ToString()} - {message}");
+            _loaded = false;
+            _loading = false;
             _onFailedToLoad.Invoke();
 
             if (_reloadAfterFailure)
@@ -80,19 +93,16 @@ namespace ServicesUtils.AdsLegacy
 
         public void OnUnityAdsShowStart(string adUnitId)
         {
-            Debug.Log("Ad show start");
             _onShowStart.Invoke();
         }
 
         public void OnUnityAdsShowClick(string adUnitId)
         {
-            Debug.Log("Ad show click");
             _onShowClick.Invoke();
         }
  
         public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
         {
-            Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
             _onShowFailure.Invoke();
             
             if (_reloadAfterShow)
@@ -105,9 +115,7 @@ namespace ServicesUtils.AdsLegacy
         {
             if (showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
             {
-                Debug.Log("Ad show complete");
                 _onShowComplete.Invoke();
-
             }
             else
             {
@@ -127,5 +135,3 @@ namespace ServicesUtils.AdsLegacy
         }
     }
 }
-
-#endif
