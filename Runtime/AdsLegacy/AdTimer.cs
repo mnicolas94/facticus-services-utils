@@ -1,6 +1,5 @@
-﻿#if ENABLED_ADSLEGACY && ENABLED_PURCHASING
+﻿#if ENABLED_ADSLEGACY
 
-using ServicesUtils.Iap;
 using UnityEngine;
 
 namespace ServicesUtils.AdsLegacy
@@ -8,32 +7,54 @@ namespace ServicesUtils.AdsLegacy
     [CreateAssetMenu(fileName = "AdTimer", menuName = "Services/Ads/AdTimer")]
     public class AdTimer : ScriptableObject
     {
+        [SerializeField] private float _firstTimePeriod;
         [SerializeField] private float _adTimePeriod;
-        [SerializeField] private NoAdsIapReceiptChecker _receiptChecker;
+        [SerializeField] private BoolCallback _additionalConditions;
         [SerializeField] private BoolCallback _forceAdsCallback;
 
         private float _lasTimeDisplayedAd;
+        private bool _displayedAtLeastOnce;
         
-        public bool ItsTimeToDisplay => Time.time - _lasTimeDisplayedAd >= _adTimePeriod;
+        private float TimePeriod => _displayedAtLeastOnce ? _adTimePeriod : _firstTimePeriod;
+        
+        public bool ItsTimeToDisplay => Time.time - _lasTimeDisplayedAd >= TimePeriod;
 
         private void OnEnable()
         {
-            UpdateLastTime();
+            _displayedAtLeastOnce = false;
+            UpdateTimer();
         }
         
-        private void UpdateLastTime()
+        public void UpdateTimer()
         {
             _lasTimeDisplayedAd = Time.time;
         }
 
         public void ShowAdIfShould(AdUnit adUnit)
         {
-            var forceAds = _forceAdsCallback.Invoke();
-            if ((ItsTimeToDisplay && !_receiptChecker.HasReceipt()) || forceAds)
+            if (ShouldShow())
             {
                 adUnit.ShowAd();
-                UpdateLastTime();
+                _displayedAtLeastOnce = true;
+                UpdateTimer();
             }
+        }
+        
+        public void ShowAdIfShould(AdUnitData adUnit)
+        {
+            if (ShouldShow())
+            {
+                adUnit.ShowAd();
+                _displayedAtLeastOnce = true;
+                UpdateTimer();
+            }
+        }
+
+        private bool ShouldShow()
+        {
+            var forceAds = _forceAdsCallback.Invoke();
+            var meetsAdditionalConditions = _additionalConditions == null || _additionalConditions.Invoke();
+            return (ItsTimeToDisplay && meetsAdditionalConditions) || forceAds;
         }
     }
 }
