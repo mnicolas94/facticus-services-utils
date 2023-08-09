@@ -53,7 +53,7 @@ namespace ServicesUtils.AdsLegacy
         private bool ShouldShow()
         {
             var forceAds = _forceAdsCallback.Invoke();
-            var meetsAdditionalConditions = _additionalConditions == null || _additionalConditions.Invoke();
+            var meetsAdditionalConditions = _additionalConditions.target == null || _additionalConditions.Invoke();
             return (ItsTimeToDisplay && meetsAdditionalConditions) || forceAds;
         }
     }
