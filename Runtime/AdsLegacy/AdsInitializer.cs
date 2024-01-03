@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.Events;
+using SerializableCallback;
 
 namespace ServicesUtils.AdsLegacy
 {

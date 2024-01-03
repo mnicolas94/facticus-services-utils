@@ -5,6 +5,7 @@ using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using UnityEngine;
 using UnityEngine.Events;
+using SerializableCallback;
 
 namespace ServicesUtils
 {
