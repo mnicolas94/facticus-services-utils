@@ -1,5 +1,5 @@
 {
-  "name": "com.facticus.com.facticus.services-utils",
+  "name": "com.facticus.services-utils",
   "version": "0.1.10",
   "displayName": "Services Utils",
   "description": "Utility functions and classes to make easier the work with Unity Gaming Services packages",
