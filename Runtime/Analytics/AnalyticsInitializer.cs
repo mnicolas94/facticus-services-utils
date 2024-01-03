@@ -12,7 +12,7 @@ namespace ServicesUtils.Analytics
     public class AnalyticsInitializer : MonoBehaviour
     {
         [FormerlySerializedAs("_popup")]
-        [SerializeField] private AsyncPopup _privacyPolicyPopup;
+        [SerializeField] private AsyncPopupReturnable<bool> _privacyPolicyPopup;
         
         private CancellationTokenSource _cts;
 
@@ -37,9 +37,12 @@ namespace ServicesUtils.Analytics
             try
             {
                 var ct = _cts.Token;
-                await Popups.ShowPopup(_privacyPolicyPopup, ct);
-                
-                List<string> consentIdentifiers = await AnalyticsService.Instance.CheckForRequiredConsents();
+                var userGaveConsent = await Popups.ShowPopup(_privacyPolicyPopup, ct);
+
+                if (userGaveConsent)
+                {
+                    AnalyticsService.Instance.StartDataCollection();
+                }
             }
             catch (ConsentCheckException e)
             {
