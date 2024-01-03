@@ -1,5 +1,6 @@
 ﻿#if ENABLED_ADSLEGACY
 
+using SerializableCallback;
 using UnityEngine;
 
 namespace ServicesUtils.AdsLegacy
@@ -9,8 +10,8 @@ namespace ServicesUtils.AdsLegacy
     {
         [SerializeField] private float _firstTimePeriod;
         [SerializeField] private float _adTimePeriod;
-        [SerializeField] private BoolCallback _additionalConditions;
-        [SerializeField] private BoolCallback _forceAdsCallback;
+        [SerializeField] private SerializableValueCallback<bool> _additionalConditions;
+        [SerializeField] private SerializableValueCallback<bool> _forceAdsCallback;
 
         private float _lasTimeDisplayedAd;
         private bool _displayedAtLeastOnce;
@@ -52,8 +53,8 @@ namespace ServicesUtils.AdsLegacy
 
         private bool ShouldShow()
         {
-            var forceAds = _forceAdsCallback.Invoke();
-            var meetsAdditionalConditions = _additionalConditions.target == null || _additionalConditions.Invoke();
+            var forceAds = _forceAdsCallback.Value;
+            var meetsAdditionalConditions = _additionalConditions.Value;
             return (ItsTimeToDisplay && meetsAdditionalConditions) || forceAds;
         }
     }

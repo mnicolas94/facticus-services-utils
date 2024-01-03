@@ -9,19 +9,16 @@ using SerializableCallback;
 
 namespace ServicesUtils
 {
-    [Serializable]
-    public class StringCallback : SerializableCallback<string>{}
-
     public class ServicesInitialization : MonoBehaviour
     {
         [SerializeField] private UnityEvent _onInitialized;
-        [SerializeField] private StringCallback _getEnvironmentNameCallback;
+        [SerializeField] private SerializableValueCallback<string> _environmentName;
 
         private async void Start()
         {
             try
             {
-                var environmentName = _getEnvironmentNameCallback.Invoke();
+                var environmentName = _environmentName.Value;
                 var options = new InitializationOptions();
                 options.SetEnvironmentName(environmentName);
                 

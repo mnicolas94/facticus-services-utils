@@ -10,14 +10,11 @@ using SerializableCallback;
 
 namespace ServicesUtils.AdsLegacy
 {
-    [Serializable]
-    public class BoolCallback : SerializableCallback<bool>{}
-    
     public class AdsInitializer : MonoBehaviour, IUnityAdsInitializationListener
     {
         [SerializeField] private string _androidGameId;
         [SerializeField] private string _iOSGameId;
-        [SerializeField] private BoolCallback _testModeCallback;
+        [SerializeField] private SerializableValueCallback<bool> _testModeCallback;
 
         [SerializeField] private UnityEvent _onInitializationComplete;
         [SerializeField] private UnityEvent _onInitializationFailed;
@@ -41,7 +38,7 @@ namespace ServicesUtils.AdsLegacy
             _gameId = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? _iOSGameId
                 : _androidGameId;
-            var testMode = _testModeCallback.Invoke();
+            var testMode = _testModeCallback.Value;
             Advertisement.Initialize(_gameId, testMode, this);
         }
 
