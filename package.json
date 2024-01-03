@@ -1,6 +1,6 @@
 {
   "name": "com.facticus.services-utils",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "displayName": "Services Utils",
   "description": "Utility functions and classes to make easier the work with Unity Gaming Services packages",
   "unity": "2022.3",
