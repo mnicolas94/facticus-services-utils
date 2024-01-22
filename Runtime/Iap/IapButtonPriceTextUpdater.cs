@@ -19,10 +19,19 @@ namespace ServicesUtils.Iap
                 _priceText.gameObject.SetActive(false);
             }
             
-            _iapButton.onProductFetched.AddListener(OnProductFetched);
+            var productId = _iapButton.productId;
+            var product = CodelessIAPStoreListener.Instance.GetProduct(productId);
+            if (product == null)
+            {
+               _iapButton.onProductFetched.AddListener(UpdateProductPrice);
+            }
+            else
+            {
+                UpdateProductPrice(product);
+            }
         }
 
-        private void OnProductFetched(Product product)
+        private void UpdateProductPrice(Product product)
         {
             if (_loadingObject != null)
             {
