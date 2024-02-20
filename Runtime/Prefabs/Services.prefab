@@ -187,6 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5175036180593381396}
   - component: {fileID: 5940356386114434293}
+  - component: {fileID: 3168303784587994075}
   m_Layer: 0
   m_Name: AnalyticsInitializer
   m_TagString: Untagged
@@ -219,6 +220,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe7067d139564e299c500c3f10f04607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _consentFlow:
+    _target: {fileID: 3168303784587994075}
+    _methodName: DisplayConsentPopup
+    _args:
+    - boolValue: 0
+      intValue: 0
+      floatValue: 0
+      stringValue: 
+      objectValue: {fileID: 0}
+      argType: 0
+      _typeName: System.Threading.CancellationToken, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+    _dynamic: 1
+    _typeName: SerializableCallback.SerializableCallback`2[[System.Threading.CancellationToken,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Threading.Tasks.Task`1[[System.Boolean,
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],
+      mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]],
+      Siccity.SerializableCallback, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    dirty: 0
+  _privacyPolicyPopup: {fileID: 152987515966798443, guid: 11f587020fe64ed47a7b588ea19d1623, type: 3}
+--- !u!114 &3168303784587994075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5082883780795846343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d4002ab7a934aa9a8c0b27e9fd495ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _privacyPolicyPopup: {fileID: 152987515966798443, guid: 11f587020fe64ed47a7b588ea19d1623, type: 3}

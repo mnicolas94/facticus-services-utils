@@ -40,5 +40,13 @@ namespace ServicesUtils.Analytics
 
             return UserGaveConsent;
         }
+
+#if UNITY_EDITOR
+        [ContextMenu("Remove player prefs data")]
+        public void EditorOnly_RemovePlayerPrefsData()
+        {
+            
+        }
+#endif
     }
 }

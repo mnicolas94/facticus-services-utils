@@ -1,8 +1,10 @@
 ﻿#if ENABLED_ANALYTICS
 
-using System.Collections.Generic;
+using System;
 using System.Threading;
+using System.Threading.Tasks;
 using AsyncUtils;
+using SerializableCallback;
 using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,6 +13,9 @@ namespace ServicesUtils.Analytics
 {
     public class AnalyticsInitializer : MonoBehaviour
     {
+        [SerializeField] private SerializableCallback<CancellationToken, Task<bool>> _consentFlow;
+        
+        [Obsolete("Use _consentFlow instead")]
         [FormerlySerializedAs("_popup")]
         [SerializeField] private AsyncPopupReturnable<bool> _privacyPolicyPopup;
         
@@ -37,7 +42,7 @@ namespace ServicesUtils.Analytics
             try
             {
                 var ct = _cts.Token;
-                var userGaveConsent = await Popups.ShowPopup(_privacyPolicyPopup, ct);
+                var userGaveConsent = await _consentFlow.Invoke(ct);
 
                 if (userGaveConsent)
                 {
