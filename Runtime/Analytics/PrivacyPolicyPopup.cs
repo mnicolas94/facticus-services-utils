@@ -45,7 +45,8 @@ namespace ServicesUtils.Analytics
         [ContextMenu("Remove player prefs data")]
         public void EditorOnly_RemovePlayerPrefsData()
         {
-            
+            PlayerPrefs.DeleteKey(PlayerPrefsKeyDisplayed);
+            PlayerPrefs.DeleteKey(PlayerPrefsKeyGaveConsent);
         }
 #endif
     }
