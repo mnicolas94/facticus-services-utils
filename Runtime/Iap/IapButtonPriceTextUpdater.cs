@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if ENABLED_PURCHASING
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.Purchasing;
@@ -23,7 +24,7 @@ namespace ServicesUtils.Iap
             var product = CodelessIAPStoreListener.Instance.GetProduct(productId);
             if (product == null)
             {
-               _iapButton.onProductFetched.AddListener(UpdateProductPrice);
+                _iapButton.onProductFetched.AddListener(UpdateProductPrice);
             }
             else
             {
@@ -46,3 +47,5 @@ namespace ServicesUtils.Iap
         }
     }
 }
+
+#endif
