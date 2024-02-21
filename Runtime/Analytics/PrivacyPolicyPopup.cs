@@ -15,25 +15,40 @@ namespace ServicesUtils.Analytics
         [SerializeField] private Button _acceptButton;
         [SerializeField] private Button _dontAcceptButton;
 
-        private bool AlreadyDisplayed => PlayerPrefs.GetInt(PlayerPrefsKeyDisplayed, 0) == 1;
-        private bool UserGaveConsent => PlayerPrefs.GetInt(PlayerPrefsKeyGaveConsent, 0) == 1;
+        private bool AlreadyDisplayed
+        {
+            get => PlayerPrefs.GetInt(PlayerPrefsKeyDisplayed, 0) == 1;
+            set => PlayerPrefs.SetInt(PlayerPrefsKeyDisplayed, value ? 1 : 0);
+        }
+
+        private bool UserGaveConsent
+        {
+            get => PlayerPrefs.GetInt(PlayerPrefsKeyGaveConsent, 0) == 1;
+            set => PlayerPrefs.SetInt(PlayerPrefsKeyGaveConsent, value ? 1 : 0);
+        }
 
         public override void Initialize()
         {
+            // backward compatibility
+            var isConsentStored = PlayerPrefs.HasKey(PlayerPrefsKeyGaveConsent);
+            if (AlreadyDisplayed && !isConsentStored)
+            {
+                AlreadyDisplayed = false;
+            }
+            
             _popupObject.SetActive(!AlreadyDisplayed);
         }
         
         public override async Task<bool> Show(CancellationToken ct)
         {
-            var isConsentRequested = PlayerPrefs.HasKey(PlayerPrefsKeyGaveConsent);
-            if (!AlreadyDisplayed || !isConsentRequested)
+            if (!AlreadyDisplayed)
             {
                 var pressedButton = await AsyncUtils.Utils.WaitFirstButtonPressedAsync(
                     ct, _acceptButton, _dontAcceptButton);
-                PlayerPrefs.SetInt(PlayerPrefsKeyDisplayed, 1);
+                AlreadyDisplayed = true;
 
                 var gaveConsent = pressedButton == _acceptButton;
-                PlayerPrefs.SetInt(PlayerPrefsKeyGaveConsent, gaveConsent ? 1 : 0);
+                UserGaveConsent = gaveConsent;
 
                 return gaveConsent;
             }
@@ -43,7 +58,7 @@ namespace ServicesUtils.Analytics
 
 #if UNITY_EDITOR
         [ContextMenu("Remove player prefs data")]
-        public void EditorOnly_RemovePlayerPrefsData()
+        private void EditorOnly_RemovePlayerPrefsData()
         {
             PlayerPrefs.DeleteKey(PlayerPrefsKeyDisplayed);
             PlayerPrefs.DeleteKey(PlayerPrefsKeyGaveConsent);
