@@ -131,8 +131,12 @@ namespace ServicesUtils.AdsLegacy
 
         private async void ReloadAfterTime()
         {
-            await Task.Delay((int)(_reloadAfterFailureTime * 1000));
-            LoadAd();
+            var ct = Application.exitCancellationToken;
+            await AsyncUtils.Utils.Delay(_reloadAfterFailureTime, ct);
+            if (!ct.IsCancellationRequested)
+            {
+                LoadAd();
+            }
         }
     }
 }
