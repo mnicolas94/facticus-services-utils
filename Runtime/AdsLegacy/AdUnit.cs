@@ -1,13 +1,15 @@
 ﻿#if ENABLED_ADSLEGACY
 
+using System.Threading;
 using System.Threading.Tasks;
+using ServicesUtils.AdsCommon;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.Events;
 
 namespace ServicesUtils.AdsLegacy
 {
-    public class AdUnit : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
+    public class AdUnit : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener, IAdsDisplayer
     {
         [SerializeField] private string _androidAdUnitId = "Interstitial_Android";
         [SerializeField] private string _iOsAdUnitId = "Interstitial_iOS";
@@ -126,6 +128,98 @@ namespace ServicesUtils.AdsLegacy
             if (!destroyCancellationToken.IsCancellationRequested)
             {
                 LoadAd();
+            }
+        }
+
+        public void Initialize()
+        {
+            
+        }
+
+        public bool IsReady()
+        {
+            return Advertisement.isInitialized;
+        }
+
+        public async Task<bool> WaitToBeReadyAsync(CancellationToken ct)
+        {
+            LoadAd();
+            var loaded = false;
+            var success = false;
+
+            void OnLoad()
+            {
+                loaded = true;
+                success = true;
+            }
+
+            void OnLoadFailed()
+            {
+                loaded = true;
+                success = false;
+            }
+            
+            _onAdLoaded.AddListener(OnLoad);
+            _onFailedToLoad.AddListener(OnLoadFailed);
+
+            try
+            {
+                while (!loaded && !ct.IsCancellationRequested)
+                {
+                    await Task.Yield();
+                }
+
+                return success;
+            }
+            finally
+            {
+                _onAdLoaded.RemoveListener(OnLoad);
+                _onFailedToLoad.RemoveListener(OnLoadFailed);
+            }
+        }
+
+        public async Task<AdResult> DisplayAdAsync(CancellationToken ct)
+        {
+            LoadAd();
+            var displayed = false;
+            var result = AdResult.Failed;
+
+            void Local_OnShowFailure()
+            {
+                displayed = true;
+                result = AdResult.Failed;
+            }
+
+            void Local_OnShowComplete()
+            {
+                displayed = true;
+                result = AdResult.Completed;
+            }
+            
+            void Local_OnShowSkipped()
+            {
+                displayed = true;
+                result = AdResult.Skipped;
+            }
+            
+            _onShowFailure.AddListener(Local_OnShowFailure);
+            _onShowComplete.AddListener(Local_OnShowComplete);
+            _onShowSkipped.AddListener(Local_OnShowSkipped);
+            
+            try
+            {
+                while (!displayed && !ct.IsCancellationRequested)
+                {
+                    await Task.Yield();
+                }
+
+                return result;
+            }
+            finally
+            {
+                _onShowFailure.RemoveListener(Local_OnShowFailure);
+                _onShowComplete.RemoveListener(Local_OnShowComplete);
+                _onShowSkipped.RemoveListener(Local_OnShowSkipped);
             }
         }
     }
