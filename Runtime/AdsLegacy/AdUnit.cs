@@ -144,6 +144,7 @@ namespace ServicesUtils.AdsLegacy
         public async Task<bool> WaitToBeReadyAsync(CancellationToken ct)
         {
             LoadAd();
+            
             var loaded = false;
             var success = false;
 
@@ -180,7 +181,8 @@ namespace ServicesUtils.AdsLegacy
 
         public async Task<AdResult> DisplayAdAsync(CancellationToken ct)
         {
-            LoadAd();
+            ShowAd();
+            
             var displayed = false;
             var result = AdResult.Failed;
 
