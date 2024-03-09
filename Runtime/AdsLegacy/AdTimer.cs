@@ -28,6 +28,7 @@ namespace ServicesUtils.AdsLegacy
         
         public void UpdateTimer()
         {
+            _displayedAtLeastOnce = true;
             _lasTimeDisplayedAd = Time.time;
         }
 
@@ -36,7 +37,6 @@ namespace ServicesUtils.AdsLegacy
             if (ShouldShow())
             {
                 adUnit.ShowAd();
-                _displayedAtLeastOnce = true;
                 UpdateTimer();
             }
         }
@@ -46,7 +46,6 @@ namespace ServicesUtils.AdsLegacy
             if (ShouldShow())
             {
                 adUnit.ShowAd();
-                _displayedAtLeastOnce = true;
                 UpdateTimer();
             }
         }
