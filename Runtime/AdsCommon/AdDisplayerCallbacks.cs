@@ -26,9 +26,15 @@ namespace ServicesUtils.AdsCommon
             return _isReady.Value;
         }
 
-        public Task<bool> WaitToBeReadyAsync(CancellationToken ct)
+        public async Task<bool> WaitToBeReadyAsync(CancellationToken ct)
         {
-            return _waitToBeReady.Invoke(ct);
+            var waitToBeReadyTask = _waitToBeReady.Invoke(ct);
+            if (waitToBeReadyTask == null)
+            {
+                return true;
+            }
+
+            return await waitToBeReadyTask;
         }
 
         public async Task<AdResult> DisplayAdAsync(CancellationToken ct)
