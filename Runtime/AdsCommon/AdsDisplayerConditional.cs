@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using SerializableCallback;
+using ServicesUtils.AdsLegacy;
 using TNRD;
 using UnityEngine;
 
@@ -28,6 +29,14 @@ namespace ServicesUtils.AdsCommon
         public async void DisplayAd()
         {
             await DisplayAdAsync(destroyCancellationToken);
+        }
+        
+        public async void DisplayAd(AdTimer timer)
+        {
+            if (timer.ShouldShow())
+            {
+                await DisplayAdAsync(destroyCancellationToken);
+            }
         }
         
         public async void DisplayAdIfReady()

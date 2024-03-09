@@ -51,7 +51,7 @@ namespace ServicesUtils.AdsLegacy
             }
         }
 
-        private bool ShouldShow()
+        public bool ShouldShow()
         {
             var forceAds = _forceAdsCallback.Value;
             var meetsAdditionalConditions = _additionalConditions.Value;
