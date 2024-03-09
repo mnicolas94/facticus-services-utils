@@ -36,6 +36,7 @@ namespace ServicesUtils.AdsCommon
             if (timer.ShouldShow())
             {
                 await DisplayAdAsync(destroyCancellationToken);
+                timer.UpdateTimer();
             }
         }
         
