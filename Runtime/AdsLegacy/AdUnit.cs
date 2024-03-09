@@ -133,7 +133,7 @@ namespace ServicesUtils.AdsLegacy
 
         public void Initialize()
         {
-            
+            LoadAd();
         }
 
         public bool IsReady()
