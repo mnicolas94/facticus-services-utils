@@ -24,6 +24,26 @@ namespace ServicesUtils.AdsCommon
 
             return null;
         }
+
+        public async void DisplayAd()
+        {
+            await DisplayAdAsync(destroyCancellationToken);
+        }
+        
+        public async void DisplayAdIfReady()
+        {
+            if (IsReady())
+            {
+                await DisplayAdAsync(destroyCancellationToken);
+            }
+        }
+        
+        public async void LoadAndDisplayAd()
+        {
+            Initialize();
+            await WaitToBeReadyAsync(destroyCancellationToken);
+            await DisplayAdAsync(destroyCancellationToken);
+        }
         
         public void Initialize()
         {
