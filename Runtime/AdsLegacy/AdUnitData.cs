@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿#if ENABLED_ADSLEGACY
+
+using System.Threading;
 using System.Threading.Tasks;
 using ServicesUtils.AdsCommon;
 using UnityEngine;
@@ -236,3 +238,5 @@ namespace ServicesUtils.AdsLegacy
         }
     }
 }
+
+#endif

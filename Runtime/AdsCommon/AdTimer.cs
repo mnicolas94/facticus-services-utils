@@ -1,10 +1,13 @@
-﻿#if ENABLED_ADSLEGACY
-
-using SerializableCallback;
+﻿using SerializableCallback;
+#if ENABLED_ADSLEGACY
+using ServicesUtils.AdsLegacy;
+#endif
 using UnityEngine;
+using UnityEngine.Scripting.APIUpdating;
 
-namespace ServicesUtils.AdsLegacy
+namespace ServicesUtils.AdsCommon
 {
+    [MovedFrom(sourceNamespace: "ServicesUtils.AdsLegacy")]
     [CreateAssetMenu(fileName = "AdTimer", menuName = "ServicesUtils/Ads/AdTimer")]
     public class AdTimer : ScriptableObject
     {
@@ -32,6 +35,7 @@ namespace ServicesUtils.AdsLegacy
             _lasTimeDisplayedAd = Time.time;
         }
 
+#if ENABLED_ADSLEGACY
         public void ShowAdIfShould(AdUnit adUnit)
         {
             if (ShouldShow())
@@ -49,7 +53,8 @@ namespace ServicesUtils.AdsLegacy
                 UpdateTimer();
             }
         }
-
+#endif
+        
         public bool ShouldShow()
         {
             var forceAds = _forceAdsCallback.Value;
@@ -58,5 +63,3 @@ namespace ServicesUtils.AdsLegacy
         }
     }
 }
-
-#endif
