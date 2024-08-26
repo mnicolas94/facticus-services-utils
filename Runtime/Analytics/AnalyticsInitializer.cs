@@ -39,20 +39,12 @@ namespace ServicesUtils.Analytics
         
         public async void Initialize()
         {
-            try
-            {
-                var ct = _cts.Token;
-                var userGaveConsent = await _consentFlow.Invoke(ct);
+            var ct = _cts.Token;
+            var userGaveConsent = await _consentFlow.Invoke(ct);
 
-                if (userGaveConsent)
-                {
-                    AnalyticsService.Instance.StartDataCollection();
-                }
-            }
-            catch (ConsentCheckException e)
+            if (userGaveConsent)
             {
-                // Something went wrong when checking the GeoIP, check the e.Reason and handle appropriately.
-                Debug.LogError(e.Message);
+                AnalyticsService.Instance.StartDataCollection();
             }
         }
     }
