@@ -25,8 +25,8 @@ namespace ServicesUtils.AdsCommon
 
         private void OnEnable()
         {
-            _displayedAtLeastOnce = false;
             UpdateTimer();
+            _displayedAtLeastOnce = false;
         }
         
         public void UpdateTimer()

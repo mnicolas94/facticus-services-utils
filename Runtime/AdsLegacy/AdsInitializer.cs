@@ -20,7 +20,6 @@ namespace ServicesUtils.AdsLegacy
         [SerializeField] private UnityEvent _onInitializationFailed;
         
         private string _gameId;
-        private bool _initialized;
         private bool _failed;
 
         public static bool IsMobile => Application.platform is RuntimePlatform.Android or RuntimePlatform.IPhonePlayer
@@ -34,17 +33,21 @@ namespace ServicesUtils.AdsLegacy
                 return;
             }
             
-            _initialized = false;
             _gameId = (Application.platform == RuntimePlatform.IPhonePlayer)
                 ? _iOSGameId
                 : _androidGameId;
             var testMode = _testModeCallback.Value;
+            
+            if (!Advertisement.isInitialized && Advertisement.isSupported)
+            {
+                Advertisement.Initialize(_gameId, testMode, this);
+            }
             Advertisement.Initialize(_gameId, testMode, this);
         }
 
         public async Task<bool> WaitForInitialization(CancellationToken ct)
         {
-            while (!_initialized && !ct.IsCancellationRequested)
+            while (!Advertisement.isInitialized && !ct.IsCancellationRequested)
             {
                 await Task.Yield();
             }
@@ -56,7 +59,6 @@ namespace ServicesUtils.AdsLegacy
         {
             Debug.Log("Ads service initialized");
             
-            _initialized = true;
             _failed = false;
             _onInitializationComplete.Invoke();
         }
@@ -65,7 +67,6 @@ namespace ServicesUtils.AdsLegacy
         {
             Debug.Log($"Error initializing Ads service: {error.ToString()} - {message}");
 
-            _initialized = true;
             _failed = true;
             _onInitializationFailed.Invoke();
         }
