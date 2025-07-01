@@ -64,8 +64,17 @@ namespace ServicesUtils.AdsLegacy
         }
 
         [ContextMenu("Load")]
-        public void LoadAd()
+        public async void LoadAd()
         {
+            _loading = true;
+
+            while (!Advertisement.isInitialized && !Application.exitCancellationToken.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+
+            if (Application.exitCancellationToken.IsCancellationRequested) return;
+            
             Advertisement.Load(_adUnitId, this);
         }
  
