@@ -38,7 +38,7 @@ namespace ServicesUtils.AdsCommon
 #if ENABLED_ADSLEGACY
         public void ShowAdIfShould(AdUnit adUnit)
         {
-            if (ShouldShow())
+            if (ShouldShow() && adUnit.IsReady())
             {
                 adUnit.ShowAd();
                 UpdateTimer();
@@ -47,7 +47,7 @@ namespace ServicesUtils.AdsCommon
         
         public void ShowAdIfShould(AdUnitData adUnit)
         {
-            if (ShouldShow())
+            if (ShouldShow() && adUnit.IsReady())
             {
                 adUnit.ShowAd();
                 UpdateTimer();
