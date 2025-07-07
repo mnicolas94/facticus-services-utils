@@ -41,7 +41,7 @@ namespace ServicesUtils.AdsCommon
         
         public async void DisplayAdIfReady()
         {
-            if (IsReady())
+            if (IsLoaded())
             {
                 await DisplayAdAsync(destroyCancellationToken);
             }
@@ -49,34 +49,51 @@ namespace ServicesUtils.AdsCommon
         
         public async void LoadAndDisplayAd()
         {
-            Initialize();
-            await WaitToBeReadyAsync(destroyCancellationToken);
-            await DisplayAdAsync(destroyCancellationToken);
+            var displayer = GetDisplayer();
+            var isLoaded = await displayer.LoadAsync(destroyCancellationToken);
+            if (isLoaded)
+            {
+                await DisplayAdAsync(destroyCancellationToken);
+            }
         }
         
-        public void Initialize()
-        {
-            var displayer = GetDisplayer();
-            displayer?.Initialize();
-        }
-
-        public bool IsReady()
+        public async void Load()
         {
             var displayer = GetDisplayer();
             if (displayer != null)
             {
-                return displayer.IsReady();
+                await displayer.LoadAsync(destroyCancellationToken);
+            }
+        }
+
+        public bool IsLoaded()
+        {
+            var displayer = GetDisplayer();
+            if (displayer != null)
+            {
+                return displayer.IsLoaded();
             }
 
             return false;
         }
 
-        public async Task<bool> WaitToBeReadyAsync(CancellationToken ct)
+        public bool IsLoading()
         {
             var displayer = GetDisplayer();
             if (displayer != null)
             {
-                return await displayer.WaitToBeReadyAsync(ct);
+                return displayer.IsLoading();
+            }
+
+            return false;
+        }
+
+        public async Task<bool> LoadAsync(CancellationToken ct)
+        {
+            var displayer = GetDisplayer();
+            if (displayer != null)
+            {
+                return await displayer.LoadAsync(ct);
             }
 
             return false;

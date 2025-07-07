@@ -9,32 +9,38 @@ namespace ServicesUtils.AdsCommon
     public class AdDisplayerCallbacks : MonoBehaviour, IAdsDisplayer
     {
         [SerializeField] private SerializableEvent _initialize;
+        [SerializeField] private SerializableCallback<CancellationToken, Task<bool>> _loadAsync;
         [SerializeField] private SerializableValueCallback<bool> _isReady;
-        [SerializeField] private SerializableCallback<CancellationToken, Task<bool>> _waitToBeReady;
+        [SerializeField] private SerializableValueCallback<bool> _isLoading;
         [SerializeField] private SerializableEvent _displayAd;
         [SerializeField] private SerializableCallback<UnityEvent> _adCompletedEventGetter;
         [SerializeField] private SerializableCallback<UnityEvent> _adSkippedEventGetter;
         [SerializeField] private SerializableCallback<UnityEvent> _adFailedEventGetter;
 
-        public void Initialize()
+        public void Load()
         {
             _initialize?.Invoke();
         }
 
-        public bool IsReady()
+        public bool IsLoaded()
         {
             return _isReady.Value;
         }
 
-        public async Task<bool> WaitToBeReadyAsync(CancellationToken ct)
+        public bool IsLoading()
         {
-            var waitToBeReadyTask = _waitToBeReady.Invoke(ct);
-            if (waitToBeReadyTask == null)
+            return _isLoading.Value;
+        }
+
+        public async Task<bool> LoadAsync(CancellationToken ct)
+        {
+            var loadAsyncTask = _loadAsync.Invoke(ct);
+            if (loadAsyncTask == null)
             {
-                return true;
+                return false;
             }
 
-            return await waitToBeReadyTask;
+            return await loadAsyncTask;
         }
 
         public async Task<AdResult> DisplayAdAsync(CancellationToken ct)

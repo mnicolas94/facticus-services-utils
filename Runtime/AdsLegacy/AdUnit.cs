@@ -1,5 +1,6 @@
 ﻿#if ENABLED_ADSLEGACY
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ServicesUtils.AdsCommon;
@@ -9,6 +10,7 @@ using UnityEngine.Events;
 
 namespace ServicesUtils.AdsLegacy
 {
+    [Obsolete("Use AdUnitData instead")]
     public class AdUnit : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener, IAdsDisplayer
     {
         [SerializeField] private string _androidAdUnitId = "Interstitial_Android";
@@ -131,17 +133,22 @@ namespace ServicesUtils.AdsLegacy
             }
         }
 
-        public void Initialize()
+        public void Load()
         {
             LoadAd();
         }
 
-        public bool IsReady()
+        public bool IsLoaded()
         {
             return Advertisement.isInitialized;
         }
 
-        public async Task<bool> WaitToBeReadyAsync(CancellationToken ct)
+        public bool IsLoading()
+        {
+            return false;
+        }
+
+        public async Task<bool> LoadAsync(CancellationToken ct)
         {
             LoadAd();
             

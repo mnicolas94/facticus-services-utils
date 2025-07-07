@@ -63,20 +63,6 @@ namespace ServicesUtils.AdsLegacy
                 : _androidAdUnitId;
         }
 
-        [ContextMenu("Load")]
-        public async void LoadAd()
-        {
-            _loading = true;
-
-            while (!Advertisement.isInitialized && !Application.exitCancellationToken.IsCancellationRequested)
-            {
-                await Task.Yield();
-            }
-
-            if (Application.exitCancellationToken.IsCancellationRequested) return;
-            
-            Advertisement.Load(_adUnitId, this);
-        }
  
         // Show the loaded content in the Ad Unit:
         [ContextMenu("Show")]
@@ -152,17 +138,37 @@ namespace ServicesUtils.AdsLegacy
             }
         }
 
-        public void Initialize()
+        [ContextMenu("Load")]
+        public async void LoadAd()
+        {
+            _loading = true;
+
+            while (!Advertisement.isInitialized && !Application.exitCancellationToken.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+
+            if (Application.exitCancellationToken.IsCancellationRequested) return;
+            
+            Advertisement.Load(_adUnitId, this);
+        }
+        
+        public void Load()
         {
             LoadAd();
         }
 
-        public bool IsReady()
+        public bool IsLoaded()
         {
             return _loaded;
         }
 
-        public async Task<bool> WaitToBeReadyAsync(CancellationToken ct)
+        public bool IsLoading()
+        {
+            return _loading;
+        }
+
+        public async Task<bool> LoadAsync(CancellationToken ct)
         {
             LoadAd();
             

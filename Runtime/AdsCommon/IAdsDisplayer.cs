@@ -5,10 +5,21 @@ namespace ServicesUtils.AdsCommon
 {
     public interface IAdsDisplayer
     {
-        void Initialize();
-        bool IsReady();
-        Task<bool> WaitToBeReadyAsync(CancellationToken ct);
+        bool IsLoaded();
+        bool IsLoading();
+        Task<bool> LoadAsync(CancellationToken ct);
         Task<AdResult> DisplayAdAsync(CancellationToken ct);
+    }
+    
+    public static class AdsDisplayerExtensions
+    {
+        public static async Task WaitToBeReadyAsync(this IAdsDisplayer displayer, CancellationToken ct)
+        {
+            while (!displayer.IsLoaded() && !ct.IsCancellationRequested)
+            {
+                await Task.Yield();
+            }
+        }
     }
 
     public enum AdResult
