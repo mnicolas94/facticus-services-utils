@@ -1,5 +1,6 @@
 ﻿#if ENABLED_ADSLEGACY
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using ServicesUtils.AdsCommon;
@@ -156,6 +157,7 @@ namespace ServicesUtils.AdsLegacy
             Advertisement.Load(_adUnitId, this);
         }
         
+        [Obsolete("Use LoadAd() instead")]
         public void Load()
         {
             LoadAd();
