@@ -20,8 +20,8 @@ namespace ServicesUtils.AdsLegacy
         [SerializeField] private float _reloadAfterFailureTime = 5;
 
         [SerializeField] private UnityEvent _onAdLoaded;
-        [SerializeField] private UnityEvent _onFailedToLoad;
-        [SerializeField] private UnityEvent _onShowFailure;
+        [SerializeField] private UnityEvent<string> _onFailedToLoad;
+        [SerializeField] private UnityEvent<string> _onShowFailure;
         [SerializeField] private UnityEvent _onShowStart;
         [SerializeField] private UnityEvent _onShowClick;
         [SerializeField] private UnityEvent _onShowComplete;
@@ -33,9 +33,9 @@ namespace ServicesUtils.AdsLegacy
 
         public UnityEvent OnAdLoaded => _onAdLoaded;
 
-        public UnityEvent OnFailedToLoad => _onFailedToLoad;
+        public UnityEvent<string> OnFailedToLoad => _onFailedToLoad;
 
-        public UnityEvent OnShowFailure => _onShowFailure;
+        public UnityEvent<string> OnShowFailure => _onShowFailure;
 
         public UnityEvent OnShowStart => _onShowStart;
 
@@ -83,7 +83,9 @@ namespace ServicesUtils.AdsLegacy
         {
             _loaded = false;
             _loading = false;
-            _onFailedToLoad.Invoke();
+            
+            var errorMessage = $"Error loading Ad Unit {adUnitId}: {error} - {message}";
+            _onFailedToLoad.Invoke(errorMessage);
 
             if (_reloadAfterFailure)
             {
@@ -103,7 +105,8 @@ namespace ServicesUtils.AdsLegacy
  
         public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
         {
-            _onShowFailure.Invoke();
+            var errorMessage = $"Error showing Ad Unit {adUnitId}: {error} - {message}";
+            _onShowFailure.Invoke(errorMessage);
             
             if (_reloadAfterShow)
             {
@@ -181,7 +184,7 @@ namespace ServicesUtils.AdsLegacy
                 success = true;
             }
 
-            void OnLoadFailed()
+            void OnLoadFailed(string _)
             {
                 loaded = true;
                 success = false;
@@ -213,7 +216,7 @@ namespace ServicesUtils.AdsLegacy
             var displayed = false;
             var result = AdResult.Failed;
 
-            void Local_OnShowFailure()
+            void Local_OnShowFailure(string _)
             {
                 displayed = true;
                 result = AdResult.Failed;
