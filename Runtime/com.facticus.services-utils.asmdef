@@ -33,7 +33,7 @@
         },
         {
             "name": "com.unity.services.analytics",
-            "expression": "4.4.2",
+            "expression": "5.1.0",
             "define": "ENABLED_ANALYTICS"
         },
         {

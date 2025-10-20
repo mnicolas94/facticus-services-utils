@@ -8,6 +8,7 @@ using SerializableCallback;
 using Unity.Services.Analytics;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UnityConsent;
 
 namespace ServicesUtils.Analytics
 {
@@ -44,7 +45,13 @@ namespace ServicesUtils.Analytics
 
             if (userGaveConsent)
             {
+#if UNITY_6000_2_OR_NEWER
+                var consent = EndUserConsent.GetConsentState();
+                consent.AnalyticsIntent = ConsentStatus.Granted;
+                EndUserConsent.SetConsentState(consent);
+#else
                 AnalyticsService.Instance.StartDataCollection();
+#endif
             }
         }
     }
